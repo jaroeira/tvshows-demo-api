@@ -5,10 +5,22 @@
         "ImageUrl": "https://static.tvmaze.com/uploads/images/original_untouched/273/683813.jpg",
         "Rating": 8.6,
         "Year": 2019,
-        "Genres": [
-            1,
-            2,
-            3
-        ]
+        "TVShowGenreId": 3
+    },
+    {
+        "Name": "Obi-Wan Kenobi",
+        "Description": "<p>The series begins 10 years after the dramatic events of <i>Star Wars: Revenge of the Sith,</i> where Obi-Wan faced his greatest defeat, the downfall, and corruption of his best friend and Jedi apprentice, Anakin Skywalker, who turned evil Sith Lord Darth Vader.</p>",
+        "ImageUrl": "https://static.tvmaze.com/uploads/images/original_untouched/409/1024484.jpg",
+        "Rating": 7.5,
+        "Year": 2022,
+        "TVShowGenreId": 3
+    },
+    {
+        "Name": "Homeland",
+        "Description": "<p>The winner of 6 Emmy Awards including Outstanding Drama Series, <b>Homeland</b> is an edge-of-your-seat sensation. Marine Sergeant Nicholas Brody is both a decorated hero and a serious threat. CIA officer Carrie Mathison is tops in her field despite being bipolar. The delicate dance these two complex characters perform, built on lies, suspicion, and desire, is at the heart of this gripping, emotional thriller in which nothing short of the fate of our nation is at stake.</p>",
+        "ImageUrl": "https://static.tvmaze.com/uploads/images/original_untouched/230/575652.jpg",
+        "Rating": 8.2,
+        "Year": 2011,
+        "TVShowGenreId": 4
     }
 ]
