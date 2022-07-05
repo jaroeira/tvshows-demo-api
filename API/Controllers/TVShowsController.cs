@@ -1,3 +1,5 @@
+using API.Dtos;
+using AutoMapper;
 using Core.Entities;
 using Core.Interfaces;
 using Core.Specifications;
@@ -8,17 +10,19 @@ namespace API.Controllers
     public class TVShowsController : BaseApiController
     {
         private readonly IUnitOfWork _unitOfWork;
-        public TVShowsController(IUnitOfWork unitOfWork)
+        private readonly IMapper _mapper;
+        public TVShowsController(IUnitOfWork unitOfWork, IMapper mapper)
         {
+            _mapper = mapper;
             _unitOfWork = unitOfWork;
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<TVShow>>> GetTVShows([FromQuery] TVShowSpecParams tvShowParams)
+        public async Task<ActionResult<IReadOnlyList<TVShow>>> GetTVShows([FromQuery] TVShowSpecParams tvShowParams)
         {
             var spec = new TVShowsWithGenresSpecification(tvShowParams);
             var tvShows = await _unitOfWork.Repository<TVShow>().GetListWithSpecAsync(spec);
-            return Ok(tvShows);
+            return Ok(_mapper.Map<IReadOnlyList<TVShow>, IReadOnlyList<TVShowToReturnDto>>(tvShows));
         }
 
         [HttpGet("{id}")]
@@ -32,7 +36,7 @@ namespace API.Controllers
                 return NotFound();
             }
 
-            return Ok(tvShow);
+            return Ok(_mapper.Map<TVShow, TVShowToReturnDto>(tvShow));
 
         }
 

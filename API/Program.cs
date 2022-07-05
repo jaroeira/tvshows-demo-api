@@ -1,3 +1,4 @@
+using API.Helpers;
 using Core.Interfaces;
 using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
@@ -11,8 +12,10 @@ builder.Services.AddControllers();
 //Inject TVShowContext as a service setting the connection string to Database
 builder.Services.AddDbContext<TVShowContext>(x => x.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")!));
 
-// Inject UnitOfWork service
+// Add UnitOfWork service
 builder.Services.AddTransient<IUnitOfWork, UnitOfWork>();
+// Add AutoMapper
+builder.Services.AddAutoMapper(typeof(MappingProfiles));
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
