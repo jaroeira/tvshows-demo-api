@@ -14,5 +14,21 @@
     {
         "Id": 4,
         "Name": "Espionage"
+    },
+    {
+        "Id": 5,
+        "Name": "Drama"
+    },
+    {
+        "Id": 6,
+        "Name": "Comedy"
+    },
+    {
+        "Id": 7,
+        "Name": "Crime"
+    },
+    {
+        "Id": 8,
+        "Name": "History"
     }
 ]

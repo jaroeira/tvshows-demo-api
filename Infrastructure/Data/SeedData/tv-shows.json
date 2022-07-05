@@ -22,5 +22,77 @@
         "Rating": 8.2,
         "Year": 2011,
         "TVShowGenreId": 4
+    },
+    {
+        "Name": "For All Mankind",
+        "Description": "<p>Imagine a world where the global space race never ended. This \"what if\" take on history from Ronald D. Moore (Outlander, Battlestar Galactica) spotlights the lives of NASA astronauts—the heroes and rock stars of their time—and their families.</p>",
+        "ImageUrl": "https://static.tvmaze.com/uploads/images/original_untouched/293/732962.jpg",
+        "Rating": 7.2,
+        "Year": 2019,
+        "TVShowGenreId": 5
+    },
+    {
+        "Name": "The Kominsky Method",
+        "Description": "<p>The sun isn't setting yet on the once famous Sandy Kominsky and his longtime agent Norman Newlander, two friends tackling life's inevitable curveballs as they navigate their later years in Los Angeles, a city that values youth and beauty.</p>",
+        "ImageUrl": "https://static.tvmaze.com/uploads/images/original_untouched/312/781852.jpg",
+        "Rating": 7.3,
+        "Year": 2018,
+        "TVShowGenreId": 6
+    },
+    {
+        "Name": "Narcos",
+        "Description": "<p><b>Narcos</b> chronicle the life and death of drug lord Pablo Escobar the ruthless boss of the Medellin Cartel and a known terrorist who was also a congressman, a family man and revered by the poor as a new Robin Hood.</p>",
+        "ImageUrl": "https://static.tvmaze.com/uploads/images/original_untouched/166/416516.jpg",
+        "Rating": 8.5,
+        "Year": 2015,
+        "TVShowGenreId": 7
+    },
+    {
+        "Name": "Narcos: Mexico",
+        "Description": "<p><b>Narcos: Mexico</b> exploring the origins of the modern drug war by going back to its roots, beginning at a time when the Mexican trafficking world was a loose and disorganized confederation of independent growers and dealers. Witness the rise of the Guadalajara Cartel in the 1980s as Félix Gallardo takes the helm, unifying traffickers in order to build an empire...</p>",
+        "ImageUrl": "https://static.tvmaze.com/uploads/images/original_untouched/367/919129.jpg",
+        "Rating": 7.9,
+        "Year": 2015,
+        "TVShowGenreId": 7
+    },
+    {
+        "Name": "The Crown",
+        "Description": "<p><b>The Crown</b> tells the inside story of two of the most famous addresses in the world -- Buckingham Palace and 10 Downing Street - and the intrigues, love lives and machinations behind the great events that shaped the second half of the 20th century. Two houses, two courts, one Crown.</p>",
+        "ImageUrl": "https://static.tvmaze.com/uploads/images/original_untouched/228/570372.jpg",
+        "Rating": 8.6,
+        "Year": 2016,
+        "TVShowGenreId": 8
+    },
+    {
+        "Name": "Space Force",
+        "Description": "<p>A workplace comedy centered around the people tasked with creating a sixth branch of the armed services — <b>Space Force</b>.</p>",
+        "ImageUrl": "https://static.tvmaze.com/uploads/images/original_untouched/387/969535.jpg",
+        "Rating": 6.4,
+        "Year": 2020,
+        "TVShowGenreId": 6
+    },
+    {
+        "Name": "The Queen's Gambit",
+        "Description": "<p>Chronicling the life of an orphan chess prodigy, the story - set during the Cold War era - follows Beth Harmon from the age of eight to twenty-two, as she struggles with addiction in a quest to become the greatest chess player in the world.</p>",
+        "ImageUrl": "https://static.tvmaze.com/uploads/images/original_untouched/275/687956.jpg",
+        "Rating": 8.5,
+        "Year": 2020,
+        "TVShowGenreId": 5
+    },
+    {
+        "Name": "The Serpent",
+        "Description": "<p>Con man, escape artist, thief, master of disguise and psychopath, Charles Sobhraj was the chief suspect in the sensational unsolved murders of up to 20 young Western travellers across India, Thailand and Nepal through 1975 and 1976. Having slipped repeatedly from the grasp of authorities worldwide, by 1976 Sobhraj was Interpol's most wanted man and had arrest warrants on three different continents.</p>",
+        "ImageUrl": "https://static.tvmaze.com/uploads/images/original_untouched/290/725324.jpg",
+        "Rating": 6.7,
+        "Year": 2021,
+        "TVShowGenreId": 7
+    },
+    {
+        "Name": "Chernobyl",
+        "Description": "<p><b>Chernobyl</b> dramatizes the true story of one of the worst man-made catastrophes in history and tells of the brave men and women who sacrificed to save Europe from unimaginable disaster. The miniseries focuses on the heartbreaking scope of the nuclear plant disaster that occurred in Ukraine in April 1986, revealing how and why it happened and telling the shocking, remarkable stories of the heroes who fought and fell.</p>",
+        "ImageUrl": "https://static.tvmaze.com/uploads/images/original_untouched/193/482599.jpg",
+        "Rating": 9.2,
+        "Year": 2019,
+        "TVShowGenreId": 5
     }
 ]
