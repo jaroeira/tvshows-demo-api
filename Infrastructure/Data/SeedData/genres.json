@@ -1,0 +1,14 @@
+[
+    {
+        "Id": 1,
+        "Name": "Action"
+    },
+    {
+        "Id": 2,
+        "Name": "Adventure"
+    },
+    {
+        "Id": 3,
+        "Name": "Science-Fiction"
+    }
+]
