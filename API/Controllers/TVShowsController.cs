@@ -1,5 +1,6 @@
 using Core.Entities;
 using Core.Interfaces;
+using Core.Specifications;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
@@ -13,16 +14,18 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        public ActionResult GetTVShows()
+        public async Task<ActionResult<List<TVShow>>> GetTVShows([FromQuery] TVShowSpecParams tvShowParams)
         {
-            return Ok("GetTVShows!!!!");
+            var spec = new TVShowsWithGenresSpecification(tvShowParams);
+            var tvShows = await _unitOfWork.Repository<TVShow>().GetListWithSpecAsync(spec);
+            return Ok(tvShows);
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<TVShow>> GetTVShowById(int id)
         {
-
-            var tvShow = await _unitOfWork.Repository<TVShow>().GetByIdAsync(id);
+            var spec = new TVShowsWithGenresSpecification(id);
+            var tvShow = await _unitOfWork.Repository<TVShow>().GetEntityWithSpec(spec);
 
             if (tvShow == null)
             {
@@ -30,7 +33,6 @@ namespace API.Controllers
             }
 
             return Ok(tvShow);
-
 
         }
 
