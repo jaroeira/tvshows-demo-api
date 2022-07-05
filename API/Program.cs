@@ -1,7 +1,7 @@
+using API.Extensions;
 using API.Helpers;
-using Core.Interfaces;
+using API.Middleware;
 using Infrastructure.Data;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,23 +13,23 @@ builder.Services.AddControllers();
 //Inject TVShowContext as a service setting the connection string to Database
 builder.Services.AddDbContext<TVShowContext>(x => x.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")!));
 
-// Add UnitOfWork service
-builder.Services.AddTransient<IUnitOfWork, UnitOfWork>();
+builder.Services.AddApplicationServices();
+
 // Add AutoMapper
 builder.Services.AddAutoMapper(typeof(MappingProfiles));
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
+
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+app.UseMiddleware<ExceptionMiddleware>();
+
+app.UseSwagger();
+app.UseSwaggerUI();
 
 app.UseStatusCodePagesWithReExecute("/errors/{0}");
 

@@ -1,4 +1,5 @@
 using API.Dtos;
+using API.Errors;
 using AutoMapper;
 using Core.Entities;
 using Core.Interfaces;
@@ -18,7 +19,7 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IReadOnlyList<TVShow>>> GetTVShows([FromQuery] TVShowSpecParams tvShowParams)
+        public async Task<ActionResult<IReadOnlyList<TVShowToReturnDto>>> GetTVShows([FromQuery] TVShowSpecParams tvShowParams)
         {
             var spec = new TVShowsWithGenresSpecification(tvShowParams);
             var tvShows = await _unitOfWork.Repository<TVShow>().GetListWithSpecAsync(spec);
@@ -26,15 +27,14 @@ namespace API.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<TVShow>> GetTVShowById(int id)
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<TVShowToReturnDto>> GetTVShowById(int id)
         {
             var spec = new TVShowsWithGenresSpecification(id);
             var tvShow = await _unitOfWork.Repository<TVShow>().GetEntityWithSpec(spec);
 
-            if (tvShow == null)
-            {
-                return NotFound();
-            }
+            if (tvShow == null) return NotFound(new ApiResponse(404));
 
             return Ok(_mapper.Map<TVShow, TVShowToReturnDto>(tvShow));
 
