@@ -10,8 +10,8 @@ public class TVShowContext : DbContext
     {
     }
 
-    public DbSet<TVShow>? TVShows { get; set; }
-    public DbSet<TVShowGenre>? TVShowGenres { get; set; }
+    public DbSet<TVShow> TVShows { get; set; }
+    public DbSet<TVShowGenre> TVShowGenres { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

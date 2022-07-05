@@ -1,11 +1,15 @@
+using Core.Entities;
+using Core.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
     public class TVShowsController : BaseApiController
     {
-        public TVShowsController()
+        private readonly IUnitOfWork _unitOfWork;
+        public TVShowsController(IUnitOfWork unitOfWork)
         {
+            _unitOfWork = unitOfWork;
         }
 
         [HttpGet]
@@ -15,9 +19,19 @@ namespace API.Controllers
         }
 
         [HttpGet("{id}")]
-        public ActionResult GetTVShowById(int id)
+        public async Task<ActionResult<TVShow>> GetTVShowById(int id)
         {
-            return Ok($"GetTVShow with id: {id}");
+
+            var tvShow = await _unitOfWork.Repository<TVShow>().GetByIdAsync(id);
+
+            if (tvShow == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(tvShow);
+
+
         }
 
         [HttpPost]
@@ -29,7 +43,7 @@ namespace API.Controllers
         [HttpPut("{id}")]
         public ActionResult UpdateTVShow(int id)
         {
-            return Ok($"Update TVShows!!!! with id: {id}");
+            return Ok($"Update TVShow with id: {id}");
         }
 
         [HttpDelete("{id}")]
