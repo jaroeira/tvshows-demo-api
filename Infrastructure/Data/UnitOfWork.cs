@@ -4,31 +4,24 @@ using Core.Interfaces;
 
 namespace Infrastructure.Data;
 
-public class UnitOfWork : IUnitOfWork
-{
+public class UnitOfWork : IUnitOfWork {
     private readonly TVShowContext _context;
     private Hashtable _repositories;
 
-    public UnitOfWork(TVShowContext context)
-    {
+    public UnitOfWork(TVShowContext context) {
         _context = context;
     }
 
-    public async Task<int> CompleteAsync()
-    {
+    public async Task<int> CompleteAsync() {
         return await _context.SaveChangesAsync();
     }
 
-
-
-    public IGenericRepository<T> Repository<T>() where T : BaseEntity
-    {
+    public IGenericRepository<T> Repository<T>() where T : BaseEntity {
         if (_repositories == null) _repositories = new Hashtable();
 
         var type = typeof(T).Name; // Name of Entity
 
-        if (!_repositories.ContainsKey(type))
-        {
+        if (!_repositories.ContainsKey(type)) {
             var repositoryType = typeof(GenericRepository<>);
 
             var repositoryInstance = Activator.CreateInstance(repositoryType.MakeGenericType(typeof(T)), _context);
@@ -39,8 +32,9 @@ public class UnitOfWork : IUnitOfWork
         return (IGenericRepository<T>)_repositories[type];
     }
 
-    public void Dispose()
-    {
+    public void Dispose() {
         _context.Dispose();
     }
+
+
 }

@@ -2,12 +2,11 @@ using Core.Entities;
 
 namespace Core.Interfaces;
 
-public interface IGenericRepository<T> where T : BaseEntity
-{
+public interface IGenericRepository<T> where T : BaseEntity {
     Task<T> GetByIdAsync(int id);
     Task<T> GetEntityWithSpec(ISpecification<T> spec);
     Task<IReadOnlyList<T>> GetListWithSpecAsync(ISpecification<T> spec);
-    Task AddAsync(T entity);
+    void Add(T entity);
     void Update(T entity);
     void Remove(T entity);
     Task<int> CountAsync(ISpecification<T> spec);
