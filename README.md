@@ -16,6 +16,13 @@ This demo project was created using Microsoft .NET 6 and C#. The project consist
 - Specification
 - Unit of Work
 
+## Project Features
+- Pagination
+- Filters
+- Exception Middleware
+- Error handling
+- Code First Entity
+
 ## 🔧 Runing the project
 
 ### Requirements:
