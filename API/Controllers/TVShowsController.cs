@@ -5,57 +5,76 @@ using Core.Entities;
 using Core.Interfaces;
 using Core.Specifications;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
-namespace API.Controllers
-{
-    public class TVShowsController : BaseApiController
-    {
-        private readonly IUnitOfWork _unitOfWork;
-        private readonly IMapper _mapper;
-        public TVShowsController(IUnitOfWork unitOfWork, IMapper mapper)
-        {
-            _mapper = mapper;
-            _unitOfWork = unitOfWork;
+namespace API.Controllers;
+public class TVShowsController : BaseApiController {
+    private readonly IUnitOfWork _unitOfWork;
+    private readonly IMapper _mapper;
+    public TVShowsController(IUnitOfWork unitOfWork, IMapper mapper) {
+        _mapper = mapper;
+        _unitOfWork = unitOfWork;
+    }
+
+    [HttpGet]
+    public async Task<ActionResult<IReadOnlyList<TVShowToReturnDto>>> GetTVShows([FromQuery] TVShowSpecParams tvShowParams) {
+        var spec = new TVShowsWithGenresSpecification(tvShowParams);
+        var tvShows = await _unitOfWork.Repository<TVShow>().GetListWithSpecAsync(spec);
+        return Ok(_mapper.Map<IReadOnlyList<TVShow>, IReadOnlyList<TVShowToReturnDto>>(tvShows));
+    }
+
+    [HttpGet("{id}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
+    public async Task<ActionResult<TVShowToReturnDto>> GetTVShowById(int id) {
+        var spec = new TVShowsWithGenresSpecification(id);
+        var tvShow = await _unitOfWork.Repository<TVShow>().GetEntityWithSpec(spec);
+
+        if (tvShow == null) return NotFound(new ApiResponse(404));
+
+        return Ok(_mapper.Map<TVShow, TVShowToReturnDto>(tvShow));
+
+    }
+
+    [HttpPost]
+    public async Task<ActionResult<TVShow>> CreateTVShow([FromBody] TVShow tvShow) {
+        _unitOfWork.Repository<TVShow>().Add(tvShow);
+        await _unitOfWork.CompleteAsync();
+        return CreatedAtAction("GetTVShowById", new { id = tvShow.Id }, tvShow);
+    }
+
+    [HttpPut("{id}")]
+    [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
+    public async Task<ActionResult> UpdateTVShow(int id, [FromBody] TVShow tvShow) {
+        if (id != tvShow.Id) return BadRequest(new ApiResponse(400));
+
+        _unitOfWork.Repository<TVShow>().Update(tvShow);
+
+        try {
+            await _unitOfWork.CompleteAsync();
+        } catch (DbUpdateConcurrencyException ex) {
+            if (!await _unitOfWork.Repository<TVShow>().Contains(x => x.Id == id)) {
+                return NotFound(new ApiResponse(404));
+            } else {
+                throw ex;
+            }
         }
 
-        [HttpGet]
-        public async Task<ActionResult<IReadOnlyList<TVShowToReturnDto>>> GetTVShows([FromQuery] TVShowSpecParams tvShowParams)
-        {
-            var spec = new TVShowsWithGenresSpecification(tvShowParams);
-            var tvShows = await _unitOfWork.Repository<TVShow>().GetListWithSpecAsync(spec);
-            return Ok(_mapper.Map<IReadOnlyList<TVShow>, IReadOnlyList<TVShowToReturnDto>>(tvShows));
-        }
+        return Ok($"TVShow id: {id} Updated!");
+    }
 
-        [HttpGet("{id}")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<TVShowToReturnDto>> GetTVShowById(int id)
-        {
-            var spec = new TVShowsWithGenresSpecification(id);
-            var tvShow = await _unitOfWork.Repository<TVShow>().GetEntityWithSpec(spec);
+    [HttpDelete("{id}")]
+    [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
+    public async Task<ActionResult> DeleteTVShow(int id) {
+        var tvShow = await _unitOfWork.Repository<TVShow>().GetByIdAsync(id);
 
-            if (tvShow == null) return NotFound(new ApiResponse(404));
+        if (tvShow == null) return NotFound(new ApiResponse(404));
 
-            return Ok(_mapper.Map<TVShow, TVShowToReturnDto>(tvShow));
+        _unitOfWork.Repository<TVShow>().Remove(tvShow);
 
-        }
+        await _unitOfWork.CompleteAsync();
 
-        [HttpPost]
-        public ActionResult CreateTVShow()
-        {
-            return Ok("Create TVShows!!!!");
-        }
-
-        [HttpPut("{id}")]
-        public ActionResult UpdateTVShow(int id)
-        {
-            return Ok($"Update TVShow with id: {id}");
-        }
-
-        [HttpDelete("{id}")]
-        public ActionResult DeleteTVShow(int id)
-        {
-            return Ok($"Delete TVShows!!!! with id: {id}");
-        }
+        return Ok($"TVShow id: {id} successfully deleted.");
     }
 }
+

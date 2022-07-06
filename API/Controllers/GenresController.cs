@@ -39,6 +39,7 @@ public class GenresController : BaseApiController {
 
 
     [HttpPut("{id}")]
+    [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
     public async Task<ActionResult> UpdateGenre(int id, [FromBody] TVShowGenre genre) {
         if (id != genre.Id) return BadRequest(new ApiResponse(400));
 
@@ -61,9 +62,13 @@ public class GenresController : BaseApiController {
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
     public async Task<ActionResult> DeleteGenre(int id) {
         var genre = await _unitOfWork.Repository<TVShowGenre>().GetByIdAsync(id);
+
         if (genre == null) return NotFound(new ApiResponse(404));
+
         _unitOfWork.Repository<TVShowGenre>().Remove(genre);
+
         await _unitOfWork.CompleteAsync();
+
         return Ok($"TVShow Genre id: {id} successfully deleted.");
     }
 }
