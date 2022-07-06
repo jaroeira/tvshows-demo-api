@@ -1,0 +1,56 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        # Update 'VARIANT' to pick a version of .NET: 3.1, 6.0
+        VARIANT: '6.0'
+        # Optional version of Node.js
+        NODE_VERSION: '18'
+
+    volumes:
+      - ..:/workspace:cached
+
+    # Overrides default command so things don't shut down after the process ends.
+    command: sleep infinity
+
+    # Runs app on the same network as the database container, allows "forwardPorts" in devcontainer.json function.
+    network_mode: service:db
+    # Uncomment the next line to use a non-root user for all processes.
+    # user: vscode
+
+    # Use "forwardPorts" in **devcontainer.json** to forward an app port locally.
+    # (Adding the "ports" property to this file will not forward from a Codespace.)
+
+  db:
+    image: postgres:14.3
+    restart: unless-stopped
+    volumes:
+      - postgres-data-tvshows:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_DB: tvshows
+    # Add "forwardPorts": ["5432"] to **devcontainer.json** to forward PostgreSQL locally.
+    # (Adding the "ports" property to this file will not forward from a Codespace.)
+  pgadmin:
+    container_name: tvshows_pgadmin4_container
+    image: dpage/pgadmin4
+    restart: unless-stopped
+    volumes:
+      - pgadmin-data-tvshow:/var/lib/pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: root
+      PGADMIN_LISTEN_PORT: 8080
+    ports:
+      - '8080:8080'
+    depends_on:
+      - db
+
+volumes:
+  postgres-data-tvshows:
+  pgadmin-data-tvshow:
