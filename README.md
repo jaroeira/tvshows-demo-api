@@ -34,6 +34,8 @@ This demo project was created using Microsoft .NET 6 and C#. The project consist
 
 - Clone the repo on your local machine
 - Make sure you have Docker installed on your local machine
+- Make sure you have VSCode on your local machine
+- Make sure you have Visual Studio Code Remote - Containers Extension on your VSCode
 - Navigate on your command line interface to the root folder of the project
 - Enter the command: code .
 - VSCode shoud detect the devcontainer and ask if it should reopen it in a remote container. Click yes.
