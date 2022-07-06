@@ -39,6 +39,8 @@ This demo project was created using Microsoft .NET 6 and C#. The project consist
 - VSCode shoud detect the devcontainer and ask if it should reopen it in a remote container. Click yes.
 - Wait while Docker pulls and builds all the images. Once it is ready you should see /workspace on the VSCode integrated terminal
 - Navigate to the API folder
+- On the VSCode integrated terminal enter the command: dotnet dev-certs https --trust
+- And the command: dotnet dev-certs https sudo -E dotnet dev-certs https -ep /usr/local/share/ca-certificates/aspnet/https.crt --format PEM
 - Run the commnad: dotnet run
 - The API should be available at https://localhost:5001
 
