@@ -3,6 +3,7 @@ using Core.Entities;
 using Core.Interfaces;
 using Core.Specifications;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace API.Controllers;
 
@@ -31,8 +32,6 @@ public class GenresController : BaseApiController {
 
     [HttpPost]
     public async Task<ActionResult<TVShowGenre>> AddGenre([FromBody] TVShowGenre genre) {
-        System.Console.WriteLine($"Genre - id: {genre.Id} name: {genre.Name}");
-
         _unitOfWork.Repository<TVShowGenre>().Add(genre);
         await _unitOfWork.CompleteAsync();
         return CreatedAtAction("GetGenreById", new { id = genre.Id }, genre);
@@ -40,12 +39,31 @@ public class GenresController : BaseApiController {
 
 
     [HttpPut("{id}")]
-    public ActionResult UpdateGenre(int id) {
-        return Ok($"Update Genre with id: {id}");
+    public async Task<ActionResult> UpdateGenre(int id, [FromBody] TVShowGenre genre) {
+        if (id != genre.Id) return BadRequest(new ApiResponse(400));
+
+        _unitOfWork.Repository<TVShowGenre>().Update(genre);
+
+        try {
+            await _unitOfWork.CompleteAsync();
+        } catch (DbUpdateConcurrencyException ex) {
+            if (!await _unitOfWork.Repository<TVShowGenre>().Contains(x => x.Id == id)) {
+                return NotFound(new ApiResponse(404));
+            } else {
+                throw ex;
+            }
+        }
+
+        return Ok($"TVShow Genre id: {id} Updated!");
     }
 
     [HttpDelete("{id}")]
-    public ActionResult DeleteGenre(int id) {
-        return Ok($"Delete Genre!!!! with id: {id}");
+    [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
+    public async Task<ActionResult> DeleteGenre(int id) {
+        var genre = await _unitOfWork.Repository<TVShowGenre>().GetByIdAsync(id);
+        if (genre == null) return NotFound(new ApiResponse(404));
+        _unitOfWork.Repository<TVShowGenre>().Remove(genre);
+        await _unitOfWork.CompleteAsync();
+        return Ok($"TVShow Genre id: {id} successfully deleted.");
     }
 }
